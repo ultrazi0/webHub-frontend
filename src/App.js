@@ -1,6 +1,6 @@
 import ControlPanel from "./ControlPanel";
 
-export default function Square() {
+export default function App() {
 
   return (
     <>

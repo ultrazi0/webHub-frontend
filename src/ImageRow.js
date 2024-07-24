@@ -4,7 +4,8 @@ import useWebSocket from "react-use-websocket";
 export default function ImageRow() {
     let image = "";
 
-    const WS_URL = "ws://localhost:8080/api/image/topic";
+    const robotName = "puppy-loving pacifist";
+    const WS_URL = "ws://localhost:8080/api/image/client/" + robotName;
 
     // Establishing WebSocket connection
     const { lastJsonMessage } = useWebSocket(WS_URL, {

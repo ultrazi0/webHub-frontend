@@ -1,14 +1,15 @@
 import { useEffect, useRef } from "react";
 import Controls from "./Controls";
+import handleKeyPress from "./handleKeyPress";
 import useWebSocket from "react-use-websocket";
 
 export default function ControlRow() {
     const feedbackArea = useRef(null); // ref that controls textarea for feedback
 
-    const robotId = 0;
-    const WS_URL = "ws://localhost:8080/api/command/client/" + robotId;
+    const robotName = "puppy-loving pacifist";
+    const WS_URL = "ws://localhost:8080/api/command/client/" + robotName;
     const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
-        shouldReconnect: (closeEvent) => true,
+        shouldReconnect: (closeEvent) => false,
         onError: (event) => console.error("Command-WebSocket error observed:", event),
         onOpen: () => console.log("Command-WebSocket connection opened"),
         onClose: (event) => console.log("Command-WebSocket connection closed:", event)
@@ -31,6 +32,18 @@ export default function ControlRow() {
             }
         }
     }, [lastJsonMessage]);
+
+    useEffect(() => {
+        const onKeyPress = (event) => handleKeyPress(event, sendJsonMessage);
+
+        window.addEventListener("keydown", onKeyPress);
+        window.addEventListener("keyup", onKeyPress);
+
+        return () => {
+            window.removeEventListener("keydown", onKeyPress);
+            window.removeEventListener("keyup", onKeyPress);
+        }
+    }, [])
 
     return (
         <div className="row g-2 my-2">
