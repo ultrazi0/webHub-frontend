@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function CommandSelector( {onSelect} ) {
+function CommandSelector( {selectedCommand, onSelect} ) {
     const [commands, setCommands] = useState([]);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ function CommandSelector( {onSelect} ) {
 
     return (
         <div className="form-floating">
-            <select className="form-select" id="selectCommand" defaultValue={null} onChange={e => onSelect(e.target.value)}>
+            <select className="form-select" id="selectCommand" defaultValue={selectedCommand} onChange={e => onSelect(e.target.value)}>
                 <option value={null}></option>
                 {commands.map(command => (
                     <option key={command} value={command}>{command}</option>
@@ -31,14 +31,10 @@ function CommandSelector( {onSelect} ) {
     );
 }
 
-function CommandValues( {values, inputValues, onChange} ) {
+function CommandValues( {values, inputValues, onChange, onSubmit} ) {
 
     if (values == null) {
         return null;
-    }
-
-    function handleSubmit() {
-        console.log(inputValues);
     }
 
     return (<>
@@ -57,18 +53,19 @@ function CommandValues( {values, inputValues, onChange} ) {
                             <input value={inputValues[value] || ""} onChange={e => onChange({
                                 ...inputValues,
                                 [value]: e.target.value ? e.target.value : 0
-                            })} placeholder="0" type="number" />
+                            })} placeholder="0" type="number" className="form-control" />
                         </td>
                     </tr>
                 ))}
             </tbody>
         </table> : <><br/><br/></>}
         
-        <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
+        <button className="btn btn-primary" onClick={onSubmit} type="submit">Submit</button>
     </>);
 }
 
-export default function Commands() {
+export default function Commands( {sendCommand} ) {
+    const [selectedCommand, setSelectedCommand] = useState(null);
     const [values, setValues] = useState(null);
     const [inputValues, setInputValues] = useState({});
 
@@ -90,10 +87,21 @@ export default function Commands() {
             });
             setInputValues(newInputValues);
         });
+        setSelectedCommand(command);
     }
 
-    return (<>
-        <CommandSelector onSelect={handleCommandSelect} />
-        <CommandValues values={values} inputValues={inputValues} onChange={(newInputValues) => setInputValues(newInputValues)} />
-    </>);
+    function handleCommandSend() {
+        sendCommand({
+            "messageType": "command",
+            "command": selectedCommand,
+            "values": inputValues
+        });
+    }
+
+    return (
+        <form onSubmit={e => e.preventDefault()}>
+            <CommandSelector onSelect={handleCommandSelect} />
+            <CommandValues values={values} inputValues={inputValues} onChange={(newInputValues) => setInputValues(newInputValues)} onSubmit={handleCommandSend} />
+        </form>
+    );
 }
