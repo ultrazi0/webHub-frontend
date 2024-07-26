@@ -3,10 +3,9 @@ import Controls from "./Controls";
 import handleKeyPress from "./handleKeyPress";
 import useWebSocket from "react-use-websocket";
 
-export default function ControlRow() {
+export default function ControlRow( {robotName} ) {
     const feedbackArea = useRef(null); // ref that controls textarea for feedback
 
-    const robotName = "puppy-loving pacifist";
     const WS_URL = "ws://localhost:8080/api/command/client/" + robotName;
     const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
         shouldReconnect: (closeEvent) => false,

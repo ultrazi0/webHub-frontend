@@ -1,10 +1,9 @@
 import CameraStream from "./CameraStream";
 import useWebSocket from "react-use-websocket";
 
-export default function ImageRow() {
+export default function ImageRow( {robotName} ) {
     let image = "";
 
-    const robotName = "puppy-loving pacifist";
     const WS_URL = "ws://localhost:8080/api/image/client/" + robotName;
 
     // Establishing WebSocket connection
