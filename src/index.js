@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { RouterProvider, createBrowserRouter, useParams } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
-import Root, { loader as robotsLoader } from "./pages/Root";
+import Root, { addRobotAction, allRobotsLoader as robotsLoader } from "./pages/Root";
 import ControlPanel from "./pages/ControlPanel";
 import Navbar from "./components/Navbar";
 
@@ -20,7 +20,8 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Root />,
-            loader: robotsLoader
+            loader: robotsLoader,
+            action: addRobotAction
           },
           {
             path: "control-panel/:robotName",
