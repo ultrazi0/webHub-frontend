@@ -10,8 +10,6 @@ export default function AddRobotModal({ showModal, setShowModal }) {
         fetcher.reset();
     };
 
-    console.log(fetcher.data);
-
     return (
         <Modal show={showModal} onHide={handleCloseModal} backdrop="static" keyboard={true}>
             <ModalHeader closeButton>

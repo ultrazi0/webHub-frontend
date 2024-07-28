@@ -2,9 +2,9 @@ import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import App from "./App";
-import { RouterProvider, createBrowserRouter, useParams } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, redirect, useParams } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
-import Root, { addRobotAction, allRobotsLoader as robotsLoader } from "./pages/Root";
+import Root, { allRobotsLoader as robotsLoader, editRobotAction, addRobotAction } from "./pages/Root";
 import ControlPanel from "./pages/ControlPanel";
 import Navbar from "./components/Navbar";
 
@@ -24,9 +24,13 @@ const router = createBrowserRouter([
             action: addRobotAction
           },
           {
+            path: "/edit/:robotId",
+            action: editRobotAction
+          },
+          {
             path: "control-panel/:robotName",
             element: <ControlPanel />
-          }
+          },
         ]
       }
     ]
