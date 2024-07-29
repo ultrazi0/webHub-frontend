@@ -2,8 +2,7 @@ import { useFetcher } from "react-router-dom";
 import { Modal, ModalHeader, ModalTitle, ModalBody, FormGroup, FormLabel, FormControl, ModalFooter, Button, FormText } from "react-bootstrap";
 import useFetcherWithReset from "../../useFetcherWithReset";
 
-export default function AddRobotModal({ showModal, setShowModal }) {
-    const fetcher = useFetcherWithReset({ key: "add-robot" });
+export default function AddRobotModal({ fetcher, showModal, setShowModal }) {
 
     const handleCloseModal = () => {
         setShowModal(false);

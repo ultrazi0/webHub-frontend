@@ -2,15 +2,14 @@ import { Button, FormControl, FormGroup, FormLabel, FormText, Modal, ModalBody, 
 import useFetcherWithReset from "../../useFetcherWithReset";
 import { useEffect, useState } from "react";
 
-export default function EditRobotModal({ robotId, setRobotId }) {
-    const fetcher = useFetcherWithReset({ key: "edit-robot" });
+export default function EditRobotModal({ fetcher, robotId, setRobotId }) {
     const [robot, setRobot] = useState(null);
 
     const handleCloseModal = () => {
         setRobotId(null);
         setRobot(null);
         fetcher.reset();
-    }
+    };
 
     useEffect(() => {
         let ignore = false;
@@ -40,8 +39,6 @@ export default function EditRobotModal({ robotId, setRobotId }) {
             ignore = true;
         }
     }, [robotId]);
-
-    console.log(robot);
 
     return (
         <Modal show={robot != null} onHide={handleCloseModal} backdrop="static" keyboard={true}>

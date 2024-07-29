@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useFetcher } from "react-router-dom";
 
-export default function useFetcherWithReset({ key }) {
-    const fetcher = useFetcher({ key: key });
+export default function useFetcherWithReset() {
+    const fetcher = useFetcher();
     const [data, setData] = useState(fetcher.data);
 
     useEffect(() => {
