@@ -14,7 +14,7 @@ export default function EditRobotModal({ fetcher, robotId, setRobotId }) {
     useEffect(() => {
         let ignore = false;
         if (robotId != null) {
-            fetch("/api/getRobotById?id=" + robotId)
+            fetch("/api/robots/" + robotId)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -45,7 +45,7 @@ export default function EditRobotModal({ fetcher, robotId, setRobotId }) {
             <ModalHeader closeButton>
                 <ModalTitle>Edit robot</ModalTitle>
             </ModalHeader>
-            <fetcher.Form method="post" action={"/edit/" + robotId}>
+            <fetcher.Form method="put" action={"/edit/" + robotId}>
                 <ModalBody>
                     <FormGroup className="mb-3" controlId="formName">
                         <FormLabel>Robot name</FormLabel>

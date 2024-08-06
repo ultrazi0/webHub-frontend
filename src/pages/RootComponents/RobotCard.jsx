@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "../../css/RobotCard.css";
 
 export default function RobotCard({ robot, setEditRobotId, setDeleteRobotId }) {
-    const createdAt = new Date(...robot.createdAt);
+    const createdAt = new Date(robot.createdAt);
 
     return (
         <Link to={"control-panel/" + robot.name} className="link-underline link-underline-opacity-0">

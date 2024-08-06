@@ -10,7 +10,7 @@ import DeleteRobotModal from "./RootComponents/DeleteRobotModal";
 
 
 export async function allRobotsLoader() {
-    const robots = await fetch("/api/getAllRobots").then(response => {
+    const robots = await fetch("/api/robots").then(response => {
         if (response.ok) {
             return response.json();
         }
@@ -18,7 +18,7 @@ export async function allRobotsLoader() {
     })
     .catch(error => {
         console.log(error);
-        return [];
+        return {};
     });
     return { robots };
 }
@@ -26,12 +26,12 @@ export async function allRobotsLoader() {
 export async function addRobotAction({ request }) {
     const formData = await request.formData();
 
-    const success = await fetch("/api/insertNewRobot", {
+    const success = await fetch("/api/robots", {
         method: "post",
         body: formData
     }).then(response => {
         if (response.ok) {
-            return response.json();
+            return true;
         }
         throw new Error(response.statusText);
     }).catch(error => {
@@ -50,14 +50,13 @@ export async function addRobotAction({ request }) {
 
 export async function editRobotAction({ request, params }) {
     const formData = await request.formData();
-    formData.append("id", params.robotId);
 
-    const success = await fetch("/api/updateRobot", {
-        method: "post",
+    const success = await fetch("/api/robots/" + params.robotId, {
+        method: "put",
         body: formData
     }).then(response => {
         if (response.ok) {
-            return response.json();
+            return true;
         }
         throw new Error(response.statusText);
     }).catch(error => {
@@ -69,15 +68,12 @@ export async function editRobotAction({ request, params }) {
 }
 
 export async function deleteRobotAction({ params }) {
-    const formData = new FormData();
-    formData.append("id", params.robotId);
 
-    const success = await fetch("/api/deleteRobot", {
-        method: "delete",
-        body: formData
+    const success = await fetch("/api/robots/" + params.robotId, {
+        method: "delete"
     }).then(response => {
         if (response.ok) {
-            return response.json();
+            return true;
         }
         throw new Error(response.statusText);
     }).catch(error => {
@@ -188,13 +184,13 @@ export default function Root() {
                     <Col md="auto">
                         <Button onClick={() => revalidator.revalidate()}>
                             <div style={{rotate: "30deg"}}>
-                                <i class="bi bi-arrow-repeat"></i>
+                                <i className="bi bi-arrow-repeat"></i>
                             </div>
                         </Button>
                     </Col>
                 </Row>
                 <Row className="g-4 my-1" xs={1} sm={1} md={2} lg={3} xl={3} xxl={4}>
-                    {robots.length ? robots.map((robot) => (
+                    {robots._embedded && robots._embedded.robotEntityList.length ? robots._embedded.robotEntityList.map((robot) => (
                         <Col key={robot.id}>
                             <RobotCard robot={robot} setEditRobotId={setEditRobotId} setDeleteRobotId={setDeleteRobotId} />
                         </Col>
